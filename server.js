@@ -23,17 +23,16 @@ app.get( '/cart-items',  cors(corsOptions), (req, res) => {
 });
 
 app.get( '/cart-items/:id',  cors(corsOptions),(req, res) => {
-    if(!id.cartArray){
+    const item = cartArray.find( cartItem => cartItem.id == req.params.id)
+    if(!item){
         res.status(404);
         res.json('ID not found');
     } else {
-        res.status(200);
-        res.json(cartArray[req.params.index]);
+        res.json(item);
     }
 });
 
 app.post( '/cart-items',  cors(corsOptions),(req, res) => {
-    res.status(200);
     const body = req.body.data;
     cartArray.push(body);
     res.json("Cart item successfully added");
@@ -41,7 +40,7 @@ app.post( '/cart-items',  cors(corsOptions),(req, res) => {
 
 app.put( '/cart-items/:id',  cors(corsOptions), (req, res) => {
     res.status(201);
-    const index = req.params.index;
+    const id = req.params.id;
     const body = req.body.data;
 
     const newCart = {
@@ -51,13 +50,13 @@ app.put( '/cart-items/:id',  cors(corsOptions), (req, res) => {
         quantity: body.quantity
     };
     
-    cartArray.splice(index, 1, newCart)
+    cartArray.splice(id, 1, newCart)
     res.json("Updating cart item by id");
 });
 
 app.delete( '/cart-items/:id',  cors(corsOptions), (req, res) => {
     res.status(204);
-    const index = req.params.index;
-    cartArray.splice(index, 1)
-    res.status(204).json("Deleting cart item");
+    const index = req.params.id;
+    cartArray.splice(id, 1)
+    res.json("Deleting cart item");
 });
