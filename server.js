@@ -23,8 +23,13 @@ app.get( '/cart-items',  cors(corsOptions), (req, res) => {
 });
 
 app.get( '/cart-items/:id',  cors(corsOptions),(req, res) => {
-    res.status(200);
-    res.json(cartArray[req.params.index]);
+    if(!id.cartArray){
+        res.status(404);
+        res.json('ID not found');
+    } else {
+        res.status(200);
+        res.json(cartArray[req.params.index]);
+    }
 });
 
 app.post( '/cart-items',  cors(corsOptions),(req, res) => {
