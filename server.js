@@ -44,19 +44,22 @@ app.put( '/cart-items/:id',  cors(corsOptions), (req, res) => {
     const body = req.body.data;
 
     const newCart = {
-        id: ID,
+        id: id,
         product: body.product,
         price: body.price,
         quantity: body.quantity
     };
     
-    cartArray.splice(id, 1, newCart)
+    const index = cartArray.findIndex( cartItem => cartItem.id == id );
+
+    cartArray.splice(index, 1, newCart)
     res.json("Updating cart item by id");
 });
 
 app.delete( '/cart-items/:id',  cors(corsOptions), (req, res) => {
     res.status(204);
-    const index = req.params.id;
-    cartArray.splice(id, 1)
+    const id = req.params.id;
+    const index = cartArray.findIndex( cartItem => cartItem.id == id );
+    cartArray.splice(index, 1)
     res.json("Deleting cart item");
 });
